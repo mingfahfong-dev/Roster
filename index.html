@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PMLB Roster">
-<link rel="apple-touch-icon" id="app-icon-link">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADf0lEQVR42u3dv0tVYRzH8XtDp5CKfko4uDU4BA6GgpAZ1JhTRJNN2ZQOIREiEZeGatPNsdG1oHIQFByMIKGh4A6XUCpIcGw4DTmKaPd5nvN4eL3/gPs5z7nf8/met3ewvj15qQbsRUdRFO4C9uSYWwDDgcOvlZqtAs0BwwG2As0BwwG2As0BwwG2As0BGA6wFWgOGA6wFWgOGA6wFWgOGA6ArUBzwHCArUBzII/mCETX2JS7mQ87iy/yspU/G++jHrizb1TEASOCfK3WCgwH2Ap2CfG1ag4YDpRrK8hoq7AVWCtgK2ArsFbAVsBWYK0AbIWtaA4YDrAVsBVYK2ArOLK20hHwejr7RmMfWUTa5gjH79fPo17rqTuPRBwwIjtbKYriXONdpAP/mL7+L6Kr73KkiJ2NT1U6hRdSsBUceVuJKj6FiNQRmgOGA6XbSsSyLAoRiSM0BwwH2IoItgJrBWyFSrAVWCtgK2yFrcBaAdiKCM2BIC+kQdmcGol9xdsf12NHVOMU7VNv3b4Y5IPOjj/2qOXDz4VneTVHkAvaf/5EpHxQA6+Vk/39sXp4fbeHu18uxdomkyNVOgVbEcFWUAaGA/u8c/htRYTmgOFAuLXCVkRoDhgOsBURbAXWCtgKlWArsFbAVtgKWwEMB9iKiBDvHEH5tboWe5xbD4ZjR1TjFO1Tb946H+SDuu/P6OF82JyfzctWNudmox64e2JGxAEjsvt/K7VarWduOVYPTwwnizgzNBBrYa2sJYtgK2ArVKKMCM0Bw4FybcWvEhWL0BwwHGArItgKrBWwFSrBVmCtgK2wFbYCawVgKyI0BwwHjpCtNO8NRr3cNBFbSysViGj/Q+pfb54OcjU9D5961PKh9epJiBfSzC5o//kTkfJBDWwrF64NRTrw1oeVZBG9C6uRIprjg8kivJCCraACthL79VtEygjNAcOB0m0lIn74SB6hOWA4wFZEsBVYK2ArVIKtwFoBW2ErbAXWCsBWRGgOBGmOoHx/sxz7ihNEfLs7UIGI9ql/uXoiyAf1Tjc8avnQbExnNBxgK2ArgOaA4cB/rZWof+eH5oDhAFuJR8/YDXe8fVqLbzUHrBWwFYQi2VemOWA4kLmtINBe0RywVsBWwFZgrYCtgK0AhgNsha1oDhgOlEX985Xj7gI0BwwH2Ao0BwwHMlwrfluB5sCh+QtjWiTyJmefzwAAAABJRU5ErkJggg==">
 <title>PMLB Roster 2026</title>
 <style>
 :root{
@@ -306,108 +306,6 @@ footer{text-align:center;color:var(--text-dim);font-size:9px;margin-top:24px;pad
 }
 
 </style>
-
-// ============================================================
-// APP ICON — canvas-generated orange roster grid for iOS home screen
-// ============================================================
-(function generateAndSetIcon(){
-  try {
-    const SZ = 180;
-    const c = document.createElement('canvas');
-    c.width = SZ; c.height = SZ;
-    const ctx = c.getContext('2d');
-
-    // Background: warm orange gradient (Claude brand tone)
-    const bg = ctx.createLinearGradient(0, 0, SZ, SZ);
-    bg.addColorStop(0, '#F07228');
-    bg.addColorStop(1, '#C94B0C');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, SZ, SZ);
-
-    // ── Roster grid ──────────────────────────────────────────
-    const PAD  = 22;
-    const GX   = PAD, GY = PAD + 4;
-    const GW   = SZ - PAD * 2;
-    const ROWS = 5, COLS = 4;
-    const CW   = Math.floor(GW / COLS);
-    const CH   = Math.floor((SZ - PAD * 2 - 10) / ROWS);
-    const GH   = CH * ROWS;
-
-    // Header row background
-    ctx.fillStyle = 'rgba(255,255,255,0.22)';
-    ctx.fillRect(GX, GY, GW, CH);
-
-    // Shift cell pattern (1=Day bright, 2=Night dim, 0=off faint)
-    const PATTERN = [
-      [1, 0, 1, 0],
-      [0, 1, 0, 1],
-      [1, 1, 0, 0],
-      [0, 0, 1, 1],
-    ];
-    const COLORS = {
-      1: 'rgba(255,255,255,0.88)',  // Day — bright white
-      0: 'rgba(255,255,255,0.20)',  // Off — faint
-    };
-    const INS = 2;
-    PATTERN.forEach((row, ri) => {
-      row.forEach((type, ci) => {
-        ctx.fillStyle = COLORS[type];
-        ctx.fillRect(
-          GX + ci * CW + INS,
-          GY + (ri + 1) * CH + INS,
-          CW - INS * 2,
-          CH - INS * 2
-        );
-      });
-    });
-
-    // Grid lines
-    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= ROWS; i++) {
-      ctx.beginPath();
-      ctx.moveTo(GX, GY + i * CH);
-      ctx.lineTo(GX + GW, GY + i * CH);
-      ctx.stroke();
-    }
-    for (let i = 0; i <= COLS; i++) {
-      ctx.beginPath();
-      ctx.moveTo(GX + i * CW, GY);
-      ctx.lineTo(GX + i * CW, GY + GH);
-      ctx.stroke();
-    }
-
-    // Label at bottom
-    ctx.fillStyle = 'rgba(255,255,255,0.92)';
-    ctx.font = `bold ${Math.round(SZ * 0.115)}px -apple-system, Helvetica, Arial, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('ROSTER', SZ / 2, GY + GH + (SZ - (GY + GH)) / 2);
-
-    // Apply as apple-touch-icon
-    const iconUrl = c.toDataURL('image/png');
-    const link = document.getElementById('app-icon-link');
-    if (link) link.href = iconUrl;
-
-    // Also inject a 512px version via manifest blob for PWA
-    const manifest = {
-      name: 'PMLB Roster 2026',
-      short_name: 'PMLB Roster',
-      display: 'standalone',
-      background_color: '#15171a',
-      theme_color: '#F07228',
-      icons: [{ src: iconUrl, sizes: '180x180', type: 'image/png' }]
-    };
-    try {
-      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-      const mLink = document.createElement('link');
-      mLink.rel = 'manifest';
-      mLink.href = URL.createObjectURL(blob);
-      document.head.appendChild(mLink);
-    } catch(e) {}
-
-  } catch(e) { console.warn('Icon generation failed:', e); }
-})();
 
 </head>
 <body>
